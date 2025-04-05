@@ -1,0 +1,41 @@
+<div class="container mt-4 bg-black">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-white text-center">London</h2>
+    <div>
+      <%= link_to "Upload New Photo", new_photo_path, class: "btn btn-outline-secondary text-white me-2" %>
+      <button class="btn btn-outline-primary text-white">New Photo</button>
+    </div>
+  </div>
+
+  <!-- Date picker input, properly placed -->
+  <div data-controller="date" class="mb-4">
+    <input
+      type="text"
+      data-date-target="input"
+      data-action="change->date#fetchPhotos"
+      class="form-control"
+      placeholder="Select a date"
+    >
+  </div>
+
+  <!-- Wrap all photos in one container with id="photos" -->
+  <div id="photos" class="row g-4">
+    <% @photos.each do |photo| %>
+      <% if photo.file.attached? %>
+        <div class="col-md-4 col-lg-3">
+          <div class="card bg-dark text-white border-0 shadow-sm photo-card">
+            <div class="position-relative">
+              <%= image_tag url_for(photo.file), class: "card-img-top img-fluid rounded" %>
+              <div class="card-img-overlay d-flex align-items-end p-2 overlay-blur">
+                <h5 class="card-title mb-0"><%= photo.title %></h5>
+              </div>
+            </div>
+            <div class="card-body py-2">
+              <p><%= photo.created_at.to_date %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

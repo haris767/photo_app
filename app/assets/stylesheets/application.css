@@ -1,0 +1,64 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+ .gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s;
+}
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+.gallery-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+}
+
+.photo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tags {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.tag {
+  color: #fff;
+  background-color: #333;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+  
+.photo {
+  display: block;
+  max-width: 100%;
+  border-radius: 10px;
+}

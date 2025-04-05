@@ -1,0 +1,14 @@
+<h2>Your Photos</h2>
+
+<%= link_to "Upload New Photo", new_photo_path %>
+
+<% @photos.each do |photo| %>
+  <div style="margin-bottom: 20px;">
+    <h4><%= photo.title %></h4>
+    <% if photo.file.attached? %>
+      <%= image_tag photo.file, width: 300 %><br>
+    <% end %>
+    <%= link_to "Edit", edit_photo_path(photo) %> |
+    <%= link_to "Delete", photo_path(photo), method: :delete, data: { confirm: "Are you sure?" } %>
+  </div>
+<% end %>
