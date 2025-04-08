@@ -3,7 +3,9 @@ class PhotosController < ApplicationController
   before_action :set_photo, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @photos = current_user.photos
+    followed_users = current_user.followings
+    @photos = Photo.where(user: followed_users + [ current_user ])
+    # @photos = current_user.photos
   end
 
   def new

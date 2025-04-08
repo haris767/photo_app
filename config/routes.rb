@@ -10,4 +10,11 @@ end
 
 # OR this also works
 get "photos_by_date", to: "photos#by_date"
+
+resources :users, only: [ :show ] do
+  member do
+    post "follow"
+    delete "unfollow"
+  end
+end
 end
