@@ -2,13 +2,16 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="text-white text-center"><h2><%= @user.email %>'s Photos</h2></h2>
     <div>
-    <% if current_user != @user %>
-  <% if current_user.followings.include?(@user) %>
-    <%= button_to 'Unfollow', unfollow_friend_path(@user), method: :delete %>
+  <% if current_user != @user %>
+  <% if current_user.friends.include?(@user) %>
+    <%= button_to "Unfriend", unfriend_path(@user), method: :delete %>
+  <% elsif current_user.followings.include?(@user) %>
+    <span>Friend request pending...</span>
   <% else %>
-    <%= button_to 'Follow', follow_friend_path(@user), method: :post %>
+    <%= button_to "Send Friend Request", friend_requests_path(receiver_id: @user.id), method: :post %>
   <% end %>
 <% end %>
+
     </div>
   </div>
 

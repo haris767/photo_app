@@ -41,7 +41,14 @@
             <% else %>
               <%= button_to '🤍', photo_likes_path(photo), method: :post, class: "btn btn-link p-0 text-white" %>
             <% end %>
+            <!-------If it's the current user like, just display their email or name as plain text.------->
+            <% photo.likes.each do |like| %>
+             <% if like.user == current_user %>
+           <span><%= pluralize(photo.likes.count, 'like') %></span>
+      <% else %>
            <%= link_to pluralize(photo.likes.count, 'like'), liked_users_photo_path(photo), class: "text-white" %>
+      <% end %>
+        <% end %>
           </div>
 
           <!-- Comment Form -->
@@ -55,16 +62,22 @@
           </div>
 
           <!-- Existing Comments -->
-          <div class="mt-2">
-          <% photo.comments.each do |comment| %>
-            <p class="mb-1">
-              <strong>
+         <div class="mt-2">
+        <% photo.comments.each do |comment| %>
+          <p class="mb-1">
+            <strong>
+              <% if comment.user == current_user %>
+              <!-------If it's the current user comment, just display their email or name as plain text.------->
+                <%= comment.user.email %>
+              <% else %>
                 <%= link_to comment.user.email, friend_path(comment.user), class: "text-white" %>
-              </strong>
-              <%= comment.content %>
-            </p>
-          <% end %>
-        </div>
+              <% end %>
+            </strong>
+            <%= comment.content %>
+          </p>
+        <% end %>
+      </div>
+
 
         </div>
       </div>

@@ -24,4 +24,10 @@ resources :photos do
   get "liked_users", on: :member
   get "commented_users", on: :member
 end
+
+resources :friend_requests, only: [ :create, :update, :destroy ]
+resources :friends, only: [ :index, :show ]
+
+
+delete "unfriend/:id", to: "friend_requests#unfriend", as: "unfriend"
 end
