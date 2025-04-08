@@ -17,4 +17,9 @@ resources :friends, only: [ :index, :show ] do
     delete "unfollow"
   end
 end
+
+resources :photos do
+  resources :likes, only: [ :create, :destroy ]
+  resources :comments, only: [ :create ]
+end
 end

@@ -13,6 +13,6 @@ class User < ApplicationRecord
   # Follower relationships
   has_many :reverse_follows, class_name: "Follow", foreign_key: :followed_id
   has_many :followers, through: :reverse_follows, source: :follower
-  has_many :likes
-  has_many :comments
+  has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
 end

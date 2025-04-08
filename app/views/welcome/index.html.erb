@@ -28,11 +28,34 @@
               <%= image_tag url_for(photo.file), class: "card-img-top img-fluid rounded" %>
               <div class="card-img-overlay d-flex align-items-end p-2 overlay-blur">
                 <h5 class="card-title mb-0"><%= photo.title %></h5>
-              </div>
-            </div>
+                
             <div class="card-body py-2">
-              <p><%= photo.created_at.to_date %></p>
+              <p><span>Post in</span><%= photo.created_at.to_date %></p>
             </div>
+            <!-- Like Button -->
+                <% if photo.likes.exists?(user: current_user) %>
+                  <% like = photo.likes.find_by(user: current_user) %>
+                  <%= button_to 'Unlike ❤️', photo_like_path(photo, like), method: :delete %>
+                <% else %>
+                  <%= button_to 'Like 🤍', photo_likes_path(photo), method: :post %>
+                <% end %>
+                <span><%= pluralize(photo.likes.count, 'like') %></span>
+             
+             <!-- Comment Form -->
+            <%= form_with(model: [photo, Comment.new], local: true) do |f| %>
+              <div>
+                <%= f.text_field :content, placeholder: "Add a comment..." %>
+                <%= f.submit "Post" %>
+              </div>
+            <% end %>
+
+            <!-- Comments -->
+            <div>
+              <% photo.comments.each do |comment| %>
+                <p><strong><%= comment.user.email %>:</strong> <%= comment.content %></p>
+              <% end %>
+            </div>
+            <!-- Comments -->
           </div>
         </div>
       <% end %>
