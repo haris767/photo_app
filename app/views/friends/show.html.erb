@@ -1,19 +1,18 @@
-<% if current_user != @user %>
+
+
+
+
+<div class="container mt-4 bg-black">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-white text-center"><h2><%= @user.email %>'s Photos</h2></h2>
+    <div>
+    <% if current_user != @user %>
   <% if current_user.followings.include?(@user) %>
     <%= button_to 'Unfollow', unfollow_friend_path(@user), method: :delete %>
   <% else %>
     <%= button_to 'Follow', follow_friend_path(@user), method: :post %>
   <% end %>
 <% end %>
-
-
-<h2><%= @user.email %>'s Photos</h2>
-<div class="container mt-4 bg-black">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="text-white text-center">London</h2>
-    <div>
-      <%= link_to "Upload New Photo", new_photo_path, class: "btn btn-outline-secondary text-white me-2" %>
-      <button class="btn btn-outline-primary text-white">New folder</button>
     </div>
   </div>
 
@@ -29,23 +28,51 @@
   </div>
 
   <!-- Wrap all photos in one container with id="photos" -->
-  <div id="photos" class="row g-4">
-    <% @photos.each do |photo| %>
-      <% if photo.file.attached? %>
-        <div class="col-md-4 col-lg-3">
-          <div class="card bg-dark text-white border-0 shadow-sm photo-card">
-            <div class="position-relative">
-              <%= image_tag url_for(photo.file), class: "card-img-top img-fluid rounded" %>
-              <div class="card-img-overlay d-flex align-items-end p-2 overlay-blur">
-                <h5 class="card-title mb-0"><%= photo.title %></h5>
+ 
+   <!-- Feed container -->
+<div id="photos" class="d-flex flex-column gap-4">
+  <% @photos.each do |photo| %>
+    <% if photo.file.attached? %>
+      <div class="card bg-black text-white border-0 rounded-4 shadow-sm overflow-hidden">
+        <!-- Photo -->
+        <%= image_tag url_for(photo.file), class: "w-100 img-fluid", style: "object-fit: cover;" %>
+
+        <!-- Photo meta -->
+        <div class="p-3">
+          <h6 class="fw-bold mb-2"><%= photo.title %></h6>
+          <small class="text-muted">Posted on <%= photo.created_at.to_date %></small>
+
+          <!-- Like Section -->
+          <div class="mt-2 d-flex align-items-center gap-2">
+            <% if photo.likes.exists?(user: current_user) %>
+              <% like = photo.likes.find_by(user: current_user) %>
+              <%= button_to '❤️', photo_like_path(photo, like), method: :delete, class: "btn btn-link p-0 text-white" %>
+            <% else %>
+              <%= button_to '🤍', photo_likes_path(photo), method: :post, class: "btn btn-link p-0 text-white" %>
+            <% end %>
+            <span><%= pluralize(photo.likes.count, 'like') %></span>
+          </div>
+
+          <!-- Comment Form -->
+          <div class="mt-3">
+            <%= form_with(model: [photo, Comment.new], local: true) do |f| %>
+              <div class="input-group">
+                <%= f.text_field :content, placeholder: "Add a comment...", class: "form-control bg-dark text-white border-secondary" %>
+                <button class="btn btn-outline-secondary" type="submit">Post</button>
               </div>
-            </div>
-            <div class="card-body py-2">
-              <p><%= photo.created_at.to_date %></p>
-            </div>
+            <% end %>
+          </div>
+
+          <!-- Existing Comments -->
+          <div class="mt-2">
+            <% photo.comments.each do |comment| %>
+              <p class="mb-1"><strong><%= comment.user.email %></strong> <%= comment.content %></p>
+            <% end %>
           </div>
         </div>
-      <% end %>
+      </div>
     <% end %>
-  </div>
+  <% end %>
 </div>
+
+

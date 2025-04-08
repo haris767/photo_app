@@ -62,3 +62,23 @@
   max-width: 100%;
   border-radius: 10px;
 }
+
+/* index page styling */
+.card img {
+  max-height: 500px;
+  object-fit: cover;
+}
+
+.card {
+  border-radius: 16px;
+  border: none;
+  overflow: hidden;
+}
+
+.btn-link {
+  font-size: 1.5rem;
+}
+
+input::placeholder {
+  color: #ccc !important;
+}

@@ -1,8 +1,11 @@
 class WelcomeController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :index ]
   def index
-    # @photos = Photo.all
-    followed_users = current_user.followings
-    @photos = Photo.where(user: followed_users + [ current_user ])
+    if current_user
+      @followings = current_user.followings
+      @photos = Photo.where(user: current_user.followings + [ current_user ])
+    else
+      redirect_to new_user_session_path, alert: "You need to sign in first."
+    end
   end
 end
