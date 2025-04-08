@@ -42,6 +42,16 @@ class PhotosController < ApplicationController
     render :index
   end
 
+  def liked_users
+    @photo = Photo.find(params[:id])
+    @users = @photo.likes.includes(:user).map(&:user)
+  end
+
+  def commented_users
+    @photo = Photo.find(params[:id])
+    @users = @photo.comments.includes(:user).map(&:user).uniq
+  end
+
   private
 
   def set_photo

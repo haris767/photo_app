@@ -21,5 +21,7 @@ end
 resources :photos do
   resources :likes, only: [ :create, :destroy ]
   resources :comments, only: [ :create ]
+  get "liked_users", on: :member
+  get "commented_users", on: :member
 end
 end
